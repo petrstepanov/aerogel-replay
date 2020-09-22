@@ -10,7 +10,7 @@ Int_t getFileNameIndex(const char *fileName){
 
 Bool_t fileNameMatch(const char *fileName){
 	TString fileNameString = fileName;
-	Int_t startIndex = 5006;
+	Int_t startIndex = 0;
 	// TPMERegexp regexp("coin_replay_Full_(\\d*)_100000.root", "g"); // coin_replay_Full_(\d*)_-1.root
 	TPMERegexp regexp("coin_replay_Full_(5\\d*)_-1.root", "g");
 	return regexp.Match(fileNameString) && getFileNameIndex(fileName) >= startIndex;
@@ -29,6 +29,7 @@ int run(const char *fileName){
 	std::cout << fileName << std::endl;
 	TFile *file = new TFile(fileName);
 	if (file->IsZombie()){
+		file->Close();
 		std::cout << "Error opening file \"" << fileName << "\". Skipping." << std::endl;
 		return 0;
 	}
@@ -147,7 +148,7 @@ Int_t replayConv(const char *dirPath = ""){
 	filesList->Print();
 
 	// Loop every file in the list
-	gEnv->SetValue("TFile.Recover", 0);
+	gEnv->SetValue("TFile.Recover", 0); // Do not attempt to recover files
 	for (TObject *object : *filesList){
 		TObjString *fileName = (TObjString *)object;
 		if (fileName){
