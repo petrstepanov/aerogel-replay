@@ -17,7 +17,7 @@ Int_t getFileNameIndex(const char *fileName){
 
 Bool_t CheckValue(ROOT::Internal::TTreeReaderValueBase& value) {
    if (value.GetSetupStatus() < 0) {
-      std::cerr << "Error " << value.GetSetupStatus() << " setting up reader for " << value.GetBranchName() << std::endl;
+      std::cout << "Error " << value.GetSetupStatus() << " setting up reader for " << value.GetBranchName() << std::endl;
       return kFALSE;
    }
    return kTRUE;
@@ -28,6 +28,7 @@ int run(const char *fileName){
 	std::cout << fileName << std::endl;
 	TFile *file = new TFile(fileName);
 	if (file->IsZombie()){
+		file->Close();
 		std::cout << "Error opening file \"" << fileName << "\". Skipping." << std::endl;
 		return 0;
 	}
@@ -147,6 +148,7 @@ Int_t replay(const char *dirPath = ""){
 	filesList->Print();
 
 	// Loop every file in the list
+	gEnv->SetValue("TFile.Recover", 0); // Do not attempt to recover files
 	for (TObject *object : *filesList){
 		TObjString *fileName = (TObjString *)object;
 		if (fileName){
