@@ -6,10 +6,13 @@ A better ROOT TFile error handling is implemented in the script "replayConv.c" w
 
 ## How to use
 
-1. Checkout the script "replay.c" or "replayConv.c" to the folder where the output data will be located.
+1. Checkout the repository to the folder where the output data will be located.
+```
+git clone https://github.com/petrstepanov/aerogel-replay/ && cd aerogel-replay
+```
 2. Tweak the RegExp input filename pattern on the line 14 of the script to match the desired name of the input files.
 3. Limit the the output spectra statistics by setting the maximum number of the reads from thetree on the line 77.
-4. Run the script with the command:
+4. Run either `replay.c` or `replayConv.c` script specifying the path to the directory containing the raw spectra:
 
 ```
 root 'replayConv.c("/path/to/the/root/replay/files")'
