@@ -8,9 +8,12 @@ A better ROOT TFile error handling is implemented in the script "replayConv.c" w
 
 1. Checkout the script "replay.c" or "replayConv.c" to the folder where the output data will be located.
 2. Tweak the RegExp input filename pattern on the line 14 of the script to match the desired name of the input files.
-2. Run the script with the command:
+3. Limit the the output spectra statistics by setting the maximum number of the reads from thetree on the line 77.
+4. Run the script with the command:
 
 ```
 root 'replayConv.c("/path/to/the/root/replay/files")'
 ```
-3. Script will automatically scan the directory for the input files and start processing them.
+5. Script will automatically scan the directory for the input files and start processing them.
+
+If the script crashes during the run you can restart the script from the desired input filename index. In order to do so specify the starting input filename index on line 13 of the script.

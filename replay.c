@@ -1,27 +1,26 @@
 Int_t getFileNameIndex(const char *fileName){
-        TString fileNameString = fileName;
-        TObjArray *objArray = TPRegexp("_(\\d*)_").MatchS(fileNameString); // _(\d*)_
-        if (objArray->GetLast() + 1 != 2){
-                return 0;
-        }
+	TString fileNameString = fileName;
+	TObjArray *objArray = TPRegexp("_(\\d*)_").MatchS(fileNameString); // _(\d*)_
+	if (objArray->GetLast() + 1 != 2){
+		return 0;
+	}
 	const char *index = ((TObjString *)objArray->At(1))->GetString().Data();
-        return atoi(index);
+	return atoi(index);
 }
 
 Bool_t fileNameMatch(const char *fileName){
 	TString fileNameString = fileName;
 	Int_t startIndex = 0;
-	// TPMERegexp regexp("coin_replay_Full_(\\d*)_100000.root", "g"); // coin_replay_Full_(\d*)_-1.root
-	TPMERegexp regexp("coin_replay_Full_(5\\d*)_-1.root", "g");
+	TPMERegexp regexp("coin_replay_Full_(\\d*)_-1.root", "g");
 	return regexp.Match(fileNameString) && getFileNameIndex(fileName) >= startIndex;
 }
 
 Bool_t CheckValue(ROOT::Internal::TTreeReaderValueBase& value) {
-   if (value.GetSetupStatus() < 0) {
-      std::cout << "Error " << value.GetSetupStatus() << " setting up reader for " << value.GetBranchName() << std::endl;
-      return kFALSE;
-   }
-   return kTRUE;
+	if (value.GetSetupStatus() < 0) {
+		std::cout << "Error " << value.GetSetupStatus() << " setting up reader for " << value.GetBranchName() << std::endl;
+		return kFALSE;
+	}
+	return kTRUE;
 }
 
 int run(const char *fileName){
